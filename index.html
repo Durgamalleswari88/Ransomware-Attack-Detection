@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ransomware Detection - Model Performance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .card-body {
+            padding: 2rem;
+        }
+        .confusion-matrix, .model-graph {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+        }
+        .table-striped th, .table-striped td {
+            text-align: center;
+        }
+        .metric-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .success-rate {
+            color: #4CAF50;
+        }
+        .failure-rate {
+            color: #f44336;
+        }
+        .model-graph {
+            max-width: 100%;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center">Ransomware Detection Model Performance</h2>
+
+    <!-- Add Button to Redirect to Upload Page -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <form action="{{ url_for('upload') }}" method="get">
+                <button type="submit" class="btn btn-primary">Go to File Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- KNN Performance -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title">K-Nearest Neighbors (KNN)</h4>
+                </div>
+                <div class="card-body">
+                    <p class="metric-title">Success Rate:</p>
+                    <h3 class="success-rate">{{ knn_success_rate }}%</h3>
+
+                    <p class="metric-title">Confusion Matrix:</p>
+                    <img src="data:image/png;base64,{{ knn_plot_url }}" class="confusion-matrix" alt="KNN Confusion Matrix">
+
+                    <p class="metric-title mt-4">Classification Report:</p>
+                    <div class="table-responsive">
+                        {{ knn_classification_report|safe }}
+                    </div>
+
+                    <!-- <p class="metric-title mt-4">KNN Model Accuracy Graph:</p>
+                    <img src="data:image/png;base64,{{ knn_accuracy_url }}" alt="KNN Success Rate" class="model-graph"> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Random Forest Performance -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title">Random Forest Classifier</h4>
+                </div>
+                <div class="card-body">
+                    <p class="metric-title">Success Rate:</p>
+                    <h3 class="success-rate">{{ rf_success_rate }}%</h3>
+
+                    <p class="metric-title">Confusion Matrix:</p>
+                    <img src="data:image/png;base64,{{ rf_plot_url }}" class="confusion-matrix" alt="Random Forest Confusion Matrix">
+
+                    <p class="metric-title mt-4">Classification Report:</p>
+                    <div class="table-responsive">
+                        {{ rf_classification_report|safe }}
+                    </div>
+
+                    <!-- <p class="metric-title mt-4">Random Forest Model Accuracy Graph:</p>
+                    <img src="data:image/png;base64,{{ rf_accuracy_url }}" alt="Random Forest Success Rate" class="model-graph"> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- Top Features -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title">Top Features Based on Importance</h4>
+                </div>
+                <div class="card-body">
+                    <p class="metric-title">Top  Features:</p>
+                    <div class="table-responsive">
+                        {{ top_features|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- KNN ROC and PR Curves -->
+        <div class="col-md-6">
+            <h4>KNN ROC Curve</h4>
+            <img src="data:image/png;base64,{{ knn_roc_url }}" class="model-graph" alt="KNN ROC Curve">
+            <h4>KNN Precision-Recall Curve</h4>
+            <img src="data:image/png;base64,{{ knn_pr_url }}" class="model-graph" alt="KNN PR Curve">
+        </div>
+        <!-- RF ROC and PR Curves -->
+        <div class="col-md-6">
+            <h4>Random Forest ROC Curve</h4>
+            <img src="data:image/png;base64,{{ rf_roc_url }}" class="model-graph" alt="RF ROC Curve">
+            <h4>Random Forest Precision-Recall Curve</h4>
+            <img src="data:image/png;base64,{{ rf_pr_url }}" class="model-graph" alt="RF PR Curve">
+        </div>
+    </div>
+
+</div>
+
+<!-- Include Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

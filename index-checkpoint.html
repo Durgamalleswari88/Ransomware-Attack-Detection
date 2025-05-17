@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ransomware Detection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Ransomware Detection Results</h1>
+
+        <h2 class="mt-3">F1 Score: {{ f1 }}</h2>
+
+        <h3 class="mt-4">Classification Report</h3>
+        <pre>{{ classification_rep }}</pre>
+
+        <h3 class="mt-4">Feature Importance (Top 20)</h3>
+        <div>{{ top_features|safe }}</div>
+
+        <h3 class="mt-4">Model Performance Visualizations</h3>
+        <img src="data:image/png;base64,{{ plot_url }}" alt="Model Performance" class="img-fluid">
+
+    </div>
+</body>
+</html>
